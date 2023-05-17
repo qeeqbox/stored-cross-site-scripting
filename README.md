@@ -1,6 +1,6 @@
 <p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/stored-cross-site-scripting/main/stored-cross-site-scripting.png"></p>
 
-A threat actor may inject malicious content into a vulnerable target.
+A threat actor may inject malicious content where content is saved into a database, when users visit the malicious vulnerable website, the malicious content is loaded from the database and the browser executes that.
 
 ## Example #1
 1. Threat actor infects a vulnerable target with malicious code

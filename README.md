@@ -3,8 +3,8 @@
 A threat actor may inject malicious content where content is saved into a database, when users visit the malicious vulnerable website, the malicious content is loaded from the database and the browser executes that.
 
 ## Example #1
-1. Threat actor infects a vulnerable target with malicious code
-2. Bob requests the vulnerable target and receives the malicious code
+1. Threat actor infects a vulnerable target with malicious code to a victim
+2. The victim requests the vulnerable target and receives the malicious code
 3. When malicious code gets executed, it calls back the threat actor
  
 ## Impact

@@ -18,6 +18,8 @@ A threat actor could embed a malicious payload instead of a ticket
 <p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/stored-cross-site-scripting/main/content/3.png"></p>
 When the victim logs in (The admin user), the payload will be executed by the broswer 
 <p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/stored-cross-site-scripting/main/content/4.png"></p>
+If you examine the ticket section, you will see the payload there
+<p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/stored-cross-site-scripting/main/content/5.png"></p>
 
 ## Code
 When the user adds a ticket to the webapp, the ticket is sent from the user to the webapp using a POST request, the add route is used, and the data is passed to the add_ticket() function

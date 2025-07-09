@@ -11,32 +11,34 @@ Run the webapp using Python
 python3 stored-cross-site-scripting/vulnerable-web-app/webapp.py
 ```
 Open the webapp in your browser 127.0.0.1:5142
-<p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/reflected-cross-site-scripting/main/content/1.png"></p>
-Open the network tab from the developer tools to examine the requests and responses
-<p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/reflected-cross-site-scripting/main/content/2.png"></p>
-If you type the URL + test, it will take you to the test resourse (page), it does not exist but the test keyword gets embedded in the page
-<p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/reflected-cross-site-scripting/main/content/3.png"></p>
-A threat actor could embed a malicious payload and send it to a victim using social engineering attacks. If the victim falls for it, their browser will send the request to the webapp
-<p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/reflected-cross-site-scripting/main/content/4.png"></p>
-Then, the browser will execute a malicious payload
-<p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/reflected-cross-site-scripting/main/content/5.png"></p>
+<p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/stored-cross-site-scripting/main/content/1.png"></p>
+Use the default credentials (username: admin and password: admin) to login
+<p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/stored-cross-site-scripting/main/content/2.png"></p>
+A threat actor could embed a malicious payload instead of a ticket
+<p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/stored-cross-site-scripting/main/content/3.png"></p>
+When the victim logs in (The admin user), the payload will be executed by the broswer 
+<p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/stored-cross-site-scripting/main/content/4.png"></p>
 
 ## Code
-This logic will check if the requested page has a route or exists, if it does not, then it will pass the requested page value to the msg_page() function
+When the user adds a ticket to the webapp, the ticket is sent from the user to the webapp using a POST request, the add route is used, and the data is passed to the add_ticket() function
 ```py
-def do_GET(self):
+def do_POST(self):
     ...
-    self.send_content(404, [('Content-type', 'text/html')], self.msg_page(f"Error: The requested URL {urllib_parse.unquote(parsed_url.path)} was not found".encode("utf-8")))
+    elif parsed_url.path == "/add":
+        self.add_ticket(post_request_data["ticket"][0])
+        self.redirect(URL)
     ...
 ```
-The msg_page() function will embed the user value in the webpage
+The add_ticket() function will embed the user value in an SQLite database
 ```py
-def msg_page(self, msg, prev=None):
-    with open(path.join(TEMPLATE_FOLDER,"msg.html"),"rb") as fi:
-        if prev:
-            return fi.read().replace(b"{{msg-result}}",msg).replace(b"{{msg-prev}}",prev).replace(b"{{msg-page}}",b"Return")
-        else:
-            return fi.read().replace(b"{{msg-result}}",msg).replace(b"{{msg-prev}}",b"/").replace(b"{{msg-page}}",b"Home")
+@logged_in
+@check_access(access="ticket")
+def add_ticket(self, ticket):
+    with connect(DATABASE, isolation_level=None) as connection:
+        cursor = connection.cursor()
+        cursor.execute("INSERT into ticket(username, ticket) values(?,?)", (self.session["username"], ticket))
+        return True
+    return False
 ```
  
 ## Impact

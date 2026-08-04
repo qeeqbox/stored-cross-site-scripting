@@ -1,7 +1,7 @@
 <p align="center"> <img src="https://raw.githubusercontent.com/qeeqbox/stored-cross-site-scripting/main/content/stored-cross-site-scripting.svg"></p>
 
 ## Stored Cross-Site Scripting (Stored XSS)
-Stored Cross-Site Scripting (Stored XSS) is a type of vulnerability where an application saves data controlled by an attacker, which could be in a database, file, comment, or user profile. Later, when the application includes this data in a web page without proper context-aware output encoding, it becomes a security risk. When users visit the affected content, their browsers execute the malicious script as if it were a part of the trusted website.
+Stored Cross-Site Scripting (Stored XSS) is a type of security vulnerability where an application saves data controlled by an attacker, which could be in a database, file, comment, or user profile. Later, when the application includes this data in a web page without proper context-aware output encoding, it becomes a security risk. When users visit the affected content, their browsers execute the malicious script as if it were a part of the trusted website.
 
 ## How Stored XSS Works
 1. Identify a Vulnerable Input: The attacker finds an input field whose content is stored and later displayed to users.
